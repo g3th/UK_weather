@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup as soup
 while True:
 	title()
 	try:
-		postcode = input('\nPlease Enter a Valid UK Postcode: ')
+		postcode = input('\nPlease Enter a Valid UK Postcode (format: AB1 2CD): ')
 		location = 'https://www.doogal.co.uk/UKPostcodes.php?Search='
 		location_page=location+postcode
 		fetch_location = requests.get(location_page)
@@ -24,10 +24,10 @@ print('\n\33[38;5;226mCurrent weather for{}'.format(location))
 print('---------------------------------------------------')
 page = 'https://weather-broker-cdn.api.bbci.co.uk/en/forecast/aggregated/{}'.format(postcode)
 current_weather = requests.get(page).json()
-
 day = 0
 forecast_and_reports_counter = 0
 descriptions_counter = 0
+timeout = 0
 
 while day < 7:
 	try:
@@ -39,6 +39,10 @@ while day < 7:
 		print('\r\33[38;5;{}mFetching Please Wait'.format(str(randint(0,255))), end='')
 		current_weather = requests.get(page).json()
 		error_flag = 1
+		timeout += 1
+		if timeout == 50:
+			print('\nNot Found. Postcode is probably not an active post code')
+			exit()
 	if error_flag == 0:
 		try:		
 			print('\33[38;5;154mForecast: {} 		| Time Slot: {}	| Temp: {}'.format(current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['enhancedWeatherDescription'], current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['timeslot'], current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['temperatureC']))
