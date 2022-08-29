@@ -1,5 +1,6 @@
 # UK Weather
-## Find your local weather from a linux terminal
+## Weather Forecast For Linux Terminals
+### Get your local weather when you first log on, without opening a browser.
 
 ![Alt text](assets/weather.png "UK Weather")
 
