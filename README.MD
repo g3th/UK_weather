@@ -1,7 +1,7 @@
 # UK Weather
 ## Find your local weather from a linux terminal
 
-![Alt text](assets/7.png "UK Weather")
+![Alt text](assets/weather.png "UK Weather")
 
 Enter your postcode and get a local weather report, using the BBC weather api endpoint.
 
