@@ -28,7 +28,8 @@ day = 0
 forecast_and_reports_counter = 0
 descriptions_counter = 0
 timeout = 0
-
+weather_box_colours = ['208','226','123','33']
+colour_index =0
 while day < 7:
 	try:
 		if descriptions_counter < 1:
@@ -44,9 +45,15 @@ while day < 7:
 			print('\nNot Found. Postcode is probably not an active post code')
 			exit()
 	if error_flag == 0:
-		try:		
-			print('\33[38;5;154mForecast: {} 		| Time Slot: {}	| Temp: {}'.format(current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['enhancedWeatherDescription'], current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['timeslot'], current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['temperatureC']))
+		try:
+			if colour_index > 3:
+				colour_index =0
+					
+			print('\33[38;5;{}mHour {} - Summary: {} 		          '.format(weather_box_colours[colour_index],current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['timeslot'], current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['enhancedWeatherDescription']))
+			print('Temp: {}° | Rain Probability: {}% | Winds: {} | Wind Speed: {}mph | Humidity: {}%'.format(current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['temperatureC'],current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['precipitationProbabilityInPercent'],current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['windDirection'],current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['windSpeedMph'],current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['humidity'] ))
+			print('--------------------------------------------------------------------------------')
 			descriptions_counter +=1
+			colour_index +=1
 		except IndexError:
 			forecast_and_reports_counter += 1
 			descriptions_counter = 0
