@@ -2,7 +2,7 @@
 ## Weather Forecast For Linux Terminals
 ### Get your local weather when you first log on, without opening a browser.
 
-![Alt text](assets/weather.png "UK Weather")
+![Alt text](assets/ukweather.png "UK Weather")
 
 Enter your post-code in the format requested, and get your local weather in your favourite linux/gnome terminal courtesy of the BBC api endpoint.
 
