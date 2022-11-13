@@ -32,20 +32,20 @@ while True:
 	
 		print('Invalid Postcode, Please Try Again.\n')
 		input('(Hit Enter)')
-title()
-print('\n\33[38;5;226mCurrent weather for{}'.format(location))
-print('---------------------------------------------------')
-page = 'https://weather-broker-cdn.api.bbci.co.uk/en/forecast/aggregated/{}'.format(postcode)
-current_weather = requests.get(page).json()
-day = 0
-forecast_and_reports_counter = 0
-descriptions_counter = 0
-timeout = 0
-weather_box_colours = ['208','226','123','33']
-colour_index =0
-
+		
 while True:
 	try:
+		title()
+		print('\n\33[38;5;226mCurrent weather for{}'.format(location))
+		print('---------------------------------------------------')
+		page = 'https://weather-broker-cdn.api.bbci.co.uk/en/forecast/aggregated/{}'.format(postcode)
+		current_weather = requests.get(page).json()
+		day = 0
+		forecast_and_reports_counter = 0
+		descriptions_counter = 0
+		timeout = 0
+		weather_box_colours = ['208','226','123','33']
+		colour_index =0
 		numeric_date = current_weather['forecasts'][0]['detailed']['reports'][0]['localDate']
 		current_date = obtain_the_date(numeric_date)
 		break
