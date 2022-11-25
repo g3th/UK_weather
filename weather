@@ -7,17 +7,6 @@ from random import randint
 from header import title
 from bs4 import BeautifulSoup as soup
 
-def obtain_the_date(numeric_date):
-	obtain_the_date = 'https://www.calculator.net/day-of-the-week-calculator.html?today={}&x=99&y=11'.format(numeric_date.replace('-','%2F'))
-	fetch_date_data = requests.get(obtain_the_date)
-	parse_date_data = soup(fetch_date_data.content,'html.parser')
-	today_date = parse_date_data.find('p',{'class':'verybigtext'})
-	month_day = today_date.text.split(' ')[5]
-	month_name = today_date.text.split(' ')[0]
-	month_number = today_date.text.split(' ')[1]
-	year = today_date.text.split(' ')[2]
-	return month_day, month_name, month_number, year
-	
 while True:
 	title()
 	try:
@@ -29,33 +18,24 @@ while True:
 		location= parse_location.find('p').text.split('areas of')[1].split('.')[0]
 		break
 	except IndexError:
-	
 		print('Invalid Postcode, Please Try Again.\n')
 		input('(Hit Enter)')
-		
-while True:
-	try:
-		title()
-		print('\n\33[38;5;226mCurrent weather for{}'.format(location))
-		print('---------------------------------------------------')
-		page = 'https://weather-broker-cdn.api.bbci.co.uk/en/forecast/aggregated/{}'.format(postcode)
-		current_weather = requests.get(page).json()
-		day = 0
-		forecast_and_reports_counter = 0
-		descriptions_counter = 0
-		timeout = 0
-		weather_box_colours = ['208','226','123','33']
-		colour_index =0
-		numeric_date = current_weather['forecasts'][0]['detailed']['reports'][0]['localDate']
-		current_date = obtain_the_date(numeric_date)
-		break
-	except:
-		pass
-		
+
+title()
+print('\n\33[38;5;226mCurrent weather for{}'.format(location))
+print('---------------------------------------------------')
+page = 'https://weather-broker-cdn.api.bbci.co.uk/en/forecast/aggregated/{}'.format(postcode)
+current_weather = requests.get(page).json()
+day = 0
+forecast_and_reports_counter = 0
+descriptions_counter = 0
+timeout = 0
+weather_box_colours = ['208','226','123','33']
+colour_index =0
 while day < 7:
 	try:
 		if descriptions_counter < 1:
-			print('\r\33[38;5;202mThis is the forecast for {} {} {} {}'.format(current_date[0], current_date[1], current_date[2],current_date[3]),end='')
+			print('\r\33[38;5;202mThis is the forecast for {}'.format(current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['localDate']),end='')
 			print('\n---------------------------------------------------')
 			error_flag = 0
 	except KeyError:
@@ -69,7 +49,8 @@ while day < 7:
 	if error_flag == 0:
 		try:
 			if colour_index > 3:
-				colour_index =0					
+				colour_index =0
+					
 			print('\33[38;5;{}mHour {} - Summary: {} 		          '.format(weather_box_colours[colour_index],current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['timeslot'], current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['enhancedWeatherDescription']))
 			print('Temp: {}° | Rain Probability: {}% | Winds: {} | Wind Speed: {}mph | Humidity: {}%'.format(current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['temperatureC'],current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['precipitationProbabilityInPercent'],current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['windDirection'],current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['windSpeedMph'],current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['humidity'] ))
 			print('--------------------------------------------------------------------------------')
@@ -79,11 +60,10 @@ while day < 7:
 			forecast_and_reports_counter += 1
 			descriptions_counter = 0
 			day += 1
-			numeric_date = current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['localDate']
-			current_date = obtain_the_date(numeric_date)
-			input('\n\33[38;5;81mHit Enter for {} {} {} {}'.format(current_date[0], current_date[1], current_date[2],current_date[3]))
+			input('\n\33[38;5;81mHit Enter for {}'.format(current_weather['forecasts'][forecast_and_reports_counter]['detailed']['reports'][descriptions_counter]['localDate']))
 			title()
 			print('\n\33[38;5;226mCurrent weather for{}'.format(location))
 			print('---------------------------------------------------')
 title()
-print ('\nThat was your 7 day forecast\n')
+print ('\nThat was your 7 day forecast')
+
